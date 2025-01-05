@@ -1,0 +1,18 @@
+# Python関連
+__pycache__/
+*.py[cod]
+*.egg-info
+*.egg
+
+# Django関連
+db.sqlite3
+
+# 仮想環境
+venv/
+
+# IDE関連
+.vscode/
+.idea/
+
+# その他
+.env

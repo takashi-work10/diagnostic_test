@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>不安タイプ診断</title>
+  <link rel="stylesheet" href="{% static 'diagnosis/styles.css' %}">
+</head>
+<body>
+  <div class="container">
+    <h1>不安タイプ診断</h1>
+    <p class="desc">1=全く当てはまらない 2=あまり当てはまらない 3=どちらでもない 4=当てはまる 5=よく当てはまる。</p>
+
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <!-- "結果を見る" ボタン -->
+      <button type="submit" class="submit-btn">結果を見る</button>
+    </form>
+  </div>
+</body>
+</html>
