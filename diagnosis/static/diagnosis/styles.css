@@ -1,115 +1,88 @@
-/* 全体レイアウト */
-body {
-  background: #f8f8f8;
-  margin: 0;
-  font-family: sans-serif;
-}
-.container {
-  max-width: 800px;
-  margin: 2rem auto;
-  background: #fff;
-  padding: 2rem;
-  border-radius: 8px;
+/* static/diagnosis/styles.css */
+
+/* 視覚的に隠す(sr-only) */
+.sr-only {
+  position: absolute !important;
+  width: 1px; 
+  height: 1px; 
+  margin: -1px; 
+  padding: 0; 
+  overflow: hidden; 
+  clip: rect(0,0,0,0);
+  border: 0;
 }
 
-/* タイトルや説明 */
-h1 {
-  margin-top: 0;
-  color: #333;
-}
-.desc {
-  color: #666;
-  margin-bottom: 1.5rem;
+/* ラジオボタン横並び */
+.mbti-radios .radio-group {
+  gap: 0.5rem;
 }
 
-/* Django form.as_p で出る ul/li structureをカスタマイズ */
-form ul {
-  display: flex;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 2rem 0;
+/* 賛成(緑)/反対(紫)/中立(グレー) */
+.color-green .radio-tick {
+  border-color: #38b2ac;
+  color: #38b2ac;
 }
-form li {
-  margin-bottom: 1.5rem;
+.color-purple .radio-tick {
+  border-color: #6c63ff;
+  color: #6c63ff;
 }
-
-/* id が "id_q" で始まる要素に一括で flex を適用 */
-[id^="id_q"] {
-  display: flex;
-  gap: 3rem;      /* ボタン同士の間隔 */
-  align-items: center; 
-  flex-wrap: wrap;  /* 画面が狭いとき折り返したいなら */
+.color-neutral .radio-tick {
+  border-color: #999;
+  color: #999;
 }
-
-/* label と input のデフォルトを消して自作する */
-
-/* ul/li構造: <li><label for="id_q1_0"><input ...> 1</label></li> など 
-   ここでは label中に input が入るため、"input + label" は使えないパターン
-   → もしくは Django formのRadioSelectをカスタムする必要がある
-   → ここでは display: inline-block; などで擬似横並びにして対処
-*/
-
-/* input自体を大きくする (appearance: none) */
-input[type="radio"] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 28px;
-  height: 28px;
-  border: 2px solid #ccc;
-  border-radius: 50%;
-  margin-right: 0.5rem;
-  cursor: pointer;
-  vertical-align: middle;
-  background-color: #fff;
-  transform: scale(1.5);
-  /* margin-left for spacing inside label */
+/* 大きめ丸 (強く賛成/強く反対) */
+.is-big .radio-tick {
+  width: 46px;
+  height: 46px;
 }
 
-/* label自体を横並びに */
-label {
-  display: inline-flex;
-  align-items: center;
+/* ラベル(賛成/反対) */
+.text-purple {
+  color: #6c63ff !important;
+}
+.text-success {
+  color: #38b2ac !important;
+}
+.label-caption {
   font-weight: bold;
-  cursor: pointer;
 }
 
-/* 1=紫, 2=薄紫, 3=灰, 4=薄緑, 5=緑  => 
-   Django標準では <input value="1" id="id_q1_0">
-   label: Q1. text + "1"
-   しかし 'value="1"] => #id_q1_0 になっている or index
-   -> しょうがないので*[value="1"] で色指定
-*/
-input[type="radio"][value="1"]:checked {
-  background-color: #7a3dad;
-  border-color: #7a3dad;
-}
-input[type="radio"][value="2"]:checked {
-  background-color: #b695c0;
-  border-color: #b695c0;
-}
-input[type="radio"][value="3"]:checked {
-  background-color: #888;
-  border-color: #888;
-}
-input[type="radio"][value="4"]:checked {
-  background-color: #9cc89c;
-  border-color: #9cc89c;
-}
-input[type="radio"][value="5"]:checked {
-  background-color: #2e7d32;
-  border-color: #2e7d32;
-}
-
-.submit-btn {
+/* カスタムラジオボタン */
+.mbti-radio {
+  position: relative;
   display: inline-block;
-  padding: 0.8rem 1.5rem;
-  background: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  text-decoration: none; /* link要素でもボタン風 */
 }
-.submit-btn:hover {
-  background: #0056b3;
+/* input本体は非表示 */
+.mbti-radio input[type="radio"] {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* 円形パーツ */
+.radio-tick {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #999;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* 選択時 */
+.mbti-radio input[type="radio"]:checked + .radio-tick {
+  background-color: currentColor;
+  border-color: currentColor;
+}
+/* 内側に白ドット(不要なら削除) */
+.mbti-radio input[type="radio"]:checked + .radio-tick::after {
+  content: none;
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #fff;
+  margin: 10px auto;
 }

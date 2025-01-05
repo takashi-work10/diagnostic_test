@@ -3,31 +3,36 @@ from django.db import models
 
 class DiagnosisResult(models.Model):
     """
-    20個の回答を保存する例。
-    質問が少ないなら数を減らしてもOK。
+    20問の回答をDBに保存するモデル。
+    q1～q20 それぞれ -3~+3 の整数を想定
+    また、最終判定された不安タイプ(result_type)も保存
     """
-    question1 = models.IntegerField()
-    question2 = models.IntegerField()
-    question3 = models.IntegerField()
-    question4 = models.IntegerField()
-    question5 = models.IntegerField()
-    question6 = models.IntegerField()
-    question7 = models.IntegerField()
-    question8 = models.IntegerField()
-    question9 = models.IntegerField()
-    question10 = models.IntegerField()
-    question11 = models.IntegerField()
-    question12 = models.IntegerField()
-    question13 = models.IntegerField()
-    question14 = models.IntegerField()
-    question15 = models.IntegerField()
-    question16 = models.IntegerField()
-    question17 = models.IntegerField()
-    question18 = models.IntegerField()
-    question19 = models.IntegerField()
-    question20 = models.IntegerField()
+    # 20個の回答
+    q1 = models.IntegerField()
+    q2 = models.IntegerField()
+    q3 = models.IntegerField()
+    q4 = models.IntegerField()
+    q5 = models.IntegerField()
+    q6 = models.IntegerField()
+    q7 = models.IntegerField()
+    q8 = models.IntegerField()
+    q9 = models.IntegerField()
+    q10 = models.IntegerField()
+    q11 = models.IntegerField()
+    q12 = models.IntegerField()
+    q13 = models.IntegerField()
+    q14 = models.IntegerField()
+    q15 = models.IntegerField()
+    q16 = models.IntegerField()
+    q17 = models.IntegerField()
+    q18 = models.IntegerField()
+    q19 = models.IntegerField()
+    q20 = models.IntegerField()
+
+    # 8つのタイプのどれかを保存
+    result_type = models.CharField(max_length=100)
 
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"DiagnosisResult #{self.id}"
+        return f"DiagnosisResult #{self.id} ({self.result_type})"

@@ -1,7 +1,9 @@
-# diagnosis/urls.py
+# mysite/urls.py (例)
+from django.contrib import admin
 from django.urls import path
-from . import views
+from diagnosis.views import index
 
 urlpatterns = [
-    path('', views.index_view, name='index'),
+    path('admin/', admin.site.urls),
+    path('', index, name='index'),
 ]

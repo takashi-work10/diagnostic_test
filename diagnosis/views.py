@@ -1,71 +1,81 @@
 # diagnosis/views.py
 from django.shortcuts import render
-from .forms import DiagnosisForm
+from .forms import MBTIForm
 from .models import DiagnosisResult
 
-def index_view(request):
+def index(request):
     if request.method == 'POST':
-        form = DiagnosisForm(request.POST)
+        form = MBTIForm(request.POST)
         if form.is_valid():
-            # (1) 回答をリスト化
-            answers = []
+            # 20個分の回答取得
+            answers_int = []
             for i in range(1, 21):
-                val_str = form.cleaned_data[f'q{i}']  # ex: "1" ~ "5"
-                answers.append(int(val_str))
+                field_name = f"q{i}"
+                val_str = form.cleaned_data.get(field_name)
+                if val_str:
+                    answers_int.append(int(val_str))
+                else:
+                    answers_int.append(0)
 
-            # (2) スコア計算
-            future_score = answers[0] + answers[2] + answers[10]
-            social_score = answers[1] + answers[3] + answers[11] + answers[17]
-            evaluation_score = answers[4] + answers[18]
-            perfection_score = answers[5] + answers[12]
-            health_score = answers[6] + answers[13]
-            existential_score = answers[7] + answers[14]
-            trauma_score = answers[8] + answers[15]
-            pressure_score = answers[9] + answers[16] + answers[19]
-            scores = {
-                '未来予報ビクビク型': future_score,
-                '人間関係オロオロ型': social_score,
-                '評価ドキドキ型': evaluation_score,
-                '完璧主義パニック型': perfection_score,
-                '健康オタオタ型': health_score,
-                '存在意義グラグラ型': existential_score,
-                'トラウマシンドローム型': trauma_score,
-                'プレッシャー爆発型': pressure_score
-            }
-            best_type = max(scores, key=scores.get)
+            total_score = sum(answers_int)
+            # 8パターンに分ける
+            result_type = get_anxiety_type(total_score)
 
-            # (3) DBに保存
-            #    models.pyで定義したDiagnosisResultに答えを格納
-            #    ここでは question1～question20 全部に書き込む
-            result_obj = DiagnosisResult.objects.create(
-                question1=answers[0],
-                question2=answers[1],
-                question3=answers[2],
-                question4=answers[3],
-                question5=answers[4],
-                question6=answers[5],
-                question7=answers[6],
-                question8=answers[7],
-                question9=answers[8],
-                question10=answers[9],
-                question11=answers[10],
-                question12=answers[11],
-                question13=answers[12],
-                question14=answers[13],
-                question15=answers[14],
-                question16=answers[15],
-                question17=answers[16],
-                question18=answers[17],
-                question19=answers[18],
-                question20=answers[19],
+            # DB保存: DiagnosisAnswer オブジェクト作成
+            diagnosis_obj = DiagnosisResult.objects.create(
+                q1 = answers_int[0],
+                q2 = answers_int[1],
+                q3 = answers_int[2],
+                q4 = answers_int[3],
+                q5 = answers_int[4],
+                q6 = answers_int[5],
+                q7 = answers_int[6],
+                q8 = answers_int[7],
+                q9 = answers_int[8],
+                q10 = answers_int[9],
+                q11 = answers_int[10],
+                q12 = answers_int[11],
+                q13 = answers_int[12],
+                q14 = answers_int[13],
+                q15 = answers_int[14],
+                q16 = answers_int[15],
+                q17 = answers_int[16],
+                q18 = answers_int[17],
+                q19 = answers_int[18],
+                q20 = answers_int[19],
+                result_type = result_type
             )
 
-            # (4) 結果画面へ
-            return render(request, 'diagnosis/result.html', {
-                'best_type': best_type,
-                'scores': scores,
-            })
+            context = {
+                'total_score': total_score,
+                'result_type': result_type,
+            }
+            return render(request, 'diagnosis/result.html', context)
+
     else:
-        form = DiagnosisForm()
+        form = MBTIForm()
 
     return render(request, 'diagnosis/index.html', {'form': form})
+
+
+def get_anxiety_type(score):
+    """
+    合計スコア(-60 ~ +60)を8つに振り分ける例
+    ※実際の質問やロジックに合わせて範囲を変えてください
+    """
+    if score <= -46:
+        return "未来予報ビクビク型（将来不安）"
+    elif score <= -31:
+        return "人間関係オロオロ型（対人不安）"
+    elif score <= -16:
+        return "評価ドキドキ型（評価不安）"
+    elif score <= -1:
+        return "完璧主義パニック型（完璧主義）"
+    elif score <= 14:
+        return "健康オタオタ型（健康不安）"
+    elif score <= 29:
+        return "存在意義グラグラ型（存在論的不安）"
+    elif score <= 44:
+        return "トラウマシンドローム型（トラウマ起因）"
+    else:
+        return "プレッシャー爆発型（高ストレス環境）"
