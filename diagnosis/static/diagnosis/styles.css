@@ -14,7 +14,11 @@
 
 /* ラジオボタン横並び */
 .mbti-radios .radio-group {
-  gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0 1rem;
 }
 
 /* 賛成(緑)/反対(紫)/中立(グレー) */
@@ -75,14 +79,31 @@
 .mbti-radio input[type="radio"]:checked + .radio-tick {
   background-color: currentColor;
   border-color: currentColor;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+  transition: all 0.3s ease;
 }
-/* 内側に白ドット(不要なら削除) */
+/* 内側に白ドット */
 .mbti-radio input[type="radio"]:checked + .radio-tick::after {
-  content: none;
+  content: "";
   display: block;
   width: 12px;
   height: 12px;
   border-radius: 50%;
   background-color: #fff;
   margin: 10px auto;
+  animation: fadeIn 0.2s ease-in-out;
 }
+
+/* フェードインアニメーション */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
