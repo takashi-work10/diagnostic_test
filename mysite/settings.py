@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1',
     'localhost',
     'mysite-i9ba.onrender.com',
-    # ↑ Render が生成したURLを追加
+    "diagnostic-test-five.vercel.app",
     ]
 
 
