@@ -16,3 +16,4 @@ venv/
 
 # その他
 .env
+.vercel
