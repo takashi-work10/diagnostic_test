@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['127.0.0.1',
     'localhost',
     'mysite-i9ba.onrender.com',
     "diagnostic-test-five.vercel.app",
+    "diagnostic-test-git-main-yamadatakashis-projects.vercel.app",
     ]
 
 
