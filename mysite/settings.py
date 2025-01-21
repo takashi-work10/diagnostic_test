@@ -85,14 +85,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'railway',
-        'USER': 'root',
-        'PASSWORD': 'CpmpkcBBbMsQAcvHAOpVCVLgezZfIRcP',
-        'HOST': 'autorack.proxy.rlwy.net',
-        'PORT': '49484',
-    }
+    'default': dj_database_url.config(
+        default='postgres://diagnostic_test_user:CpmpkcBBbMsQAcvHAOpVCVLgezZfIRcP@dpg-c8666-default.railway.app:6543/diagnostic_test',
+        conn_max_age=600
+    )
 }
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -116,9 +112,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tokyo'
 
 USE_I18N = True
 
