@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-import pymysql
-pymysql.install_as_MySQLdb()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -88,12 +86,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # or 'django.db.backends.postgresql'
-        'NAME': os.environ.get('MYSQLDATABASE', 'railway'),
-        'USER': os.environ.get('MYSQLUSER', 'root'),
-        'PASSWORD': os.environ.get('MYSQLPASSWORD', 'CpmpkcBBbMsQAcvHAOpVCVLgezZfIRcP'),
-        'HOST': os.environ.get('MYSQLHOST', 'mysql.railway.internal'),
-        'PORT': os.environ.get('MYSQLPORT', '3306'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'railway',
+        'USER': 'root',
+        'PASSWORD': 'CpmpkcBBbMsQAcvHAOpVCVLgezZfIRcP',
+        'HOST': 'autorack.proxy.rlwy.net',
+        'PORT': '49484',
     }
 }
 # Password validation
